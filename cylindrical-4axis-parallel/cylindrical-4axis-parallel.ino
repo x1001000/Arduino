@@ -7,9 +7,9 @@ const float L = 8.1, R = 8.1;
 const int servoConfig[4][5] = {
   //outputPin, initAngle, minAngle, maxAngle, inputPin
   { 10, 180, 90, 180, 0},                               //左
-  {  3, map(90,  0, 180,  2, 156),   0, 180, 1},        //下
   {  9, map(90, 45, 180, 45, 150),  45, 180, 2},        //右
   {  8, 157, 144, 170, 3},                              //前
+  {  3, map(90,  0, 180,  2, 156),   0, 180, 1},        //下
 };
 
 void servo(float P, float H, float D) {
@@ -30,8 +30,8 @@ void servo(float P, float H, float D) {
   thetaR = thetaR * 180 / PI;
   thetaR = map(thetaR, 45, 180, 45, 150);
   servoNumber[0].write(thetaL);
-  servoNumber[2].write(thetaR);
-  servoNumber[1].write(map(P,  0, 180,  2, 156));
+  servoNumber[1].write(thetaR);
+  servoNumber[3].write(map(P,  0, 180,  2, 156));
   delay(50);
 }
 
