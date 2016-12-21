@@ -1,13 +1,14 @@
-byte nowLed = 0;
+byte onLED = 0;
 
-void moveLed(int t, int n)
+void moveLED(int t, int n)
 {
-  while (n--) //重複n次
+  while (n--)                     //重複n次
   {
-    digitalWrite(5 + nowLed, LOW);            //關
-    nowLed++;
-    nowLed %= 8;
-    digitalWrite(5 + nowLed, HIGH); delay(t); //開t毫秒
+    digitalWrite(5 + onLED, LOW); //關
+    onLED++;
+    onLED %= 8;
+    digitalWrite(5 + onLED, HIGH);//開t毫秒
+    delay(t);
   }
 }
 
@@ -24,8 +25,8 @@ void loop()
 {
   while (digitalRead(2) == LOW) delay(1);   //等你按
   while (digitalRead(2) == HIGH) delay(20); //等你放
-  moveLed(250, 8);                //啟動跑1圈
-  moveLed(100, 8 * random(2, 4)); //快速跑2~3圈
-  moveLed(200, 8);                //慢速跑1圈
-  moveLed(350, 8 + random(0, 8)); //結束跑1圈多0~7顆
+  moveLED(250, 8);                //啟動跑1圈
+  moveLED(100, 8 * random(2, 4)); //快速跑2~3圈
+  moveLED(200, 8);                //慢速跑1圈
+  moveLED(350, 8 + random(0, 8)); //結束跑1圈多0~7顆
 }
