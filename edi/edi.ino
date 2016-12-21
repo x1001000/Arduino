@@ -2,7 +2,7 @@ byte nowLed = 0;
 
 void moveLed(int t, int n)
 {
-  for (int i = 0 ; i < n ; i++)               //移動n次
+  while (n--) //重複n次
   {
     digitalWrite(5 + nowLed, LOW);            //關
     nowLed++;
