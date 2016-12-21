@@ -27,5 +27,5 @@ void loop()
   moveLed(250, 8);                //啟動跑1圈
   moveLed(100, 8 * random(2, 4)); //快速跑2~3圈
   moveLed(200, 8);                //慢速跑1圈
-  moveLed(350, 8+random(0, 8));   //結束跑1圈多0~7顆
+  moveLed(350, 8 + random(0, 8)); //結束跑1圈多0~7顆
 }
