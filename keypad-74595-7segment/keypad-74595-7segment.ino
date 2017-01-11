@@ -7,7 +7,7 @@
 //
 // Made by 系統師 育成高中
 // License: CC-BY-SA 3.0
-// Downloaded from: https://circuits.io/circuits/3660379-arduino-keypad
+// Downloaded from: https://circuits.io/circuits/3660379-keypad-74595-7segment
 
 #include <Keypad.h>
 
