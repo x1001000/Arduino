@@ -23,11 +23,11 @@ char keys[][4] = {
 
 Keypad kpd = Keypad( makeKeymap(keys), rowPins, colPins, 4, 4 );
 
-byte clockPin = 11; //Pin connected to SH_CP of 74HC595
-byte latchPin = 12; //Pin connected to ST_CP of 74HC595
-byte dataPin = 13;  //Pin connected to DS    of 74HC595
+byte clockPin = 11; // output to SH_CP of 74HC595
+byte latchPin = 12; // output to ST_CP of 74HC595
+byte dataPin = 13;  // output to DS    of 74HC595
 
-const byte code[] = { // for Common Cathode 7-segment
+byte code[] = { // Common Cathode 7-segment
   B11111100,
   B01100000,
   B11011010,
@@ -53,14 +53,14 @@ void getAllzeros() {
 void getBack() {
   sevenSegment[2] = sevenSegment[1];
   sevenSegment[1] = sevenSegment[0];
-  sevenSegment[0] = 0;      // code[ 0 - '0' ] == 0
+  sevenSegment[0] = 0;  // code[ 0 - '0' ] == 0
   updateSevenSegment();
 }
 
 void getClear() {
-  sevenSegment[0] = 0;
-  sevenSegment[1] = 0;
-  sevenSegment[2] = 0;
+  sevenSegment[0] = 0;  // code[ 0 - '0' ] == 0
+  sevenSegment[1] = 0;  // code[ 0 - '0' ] == 0
+  sevenSegment[2] = 0;  // code[ 0 - '0' ] == 0
   updateSevenSegment();
 }
 
@@ -69,10 +69,10 @@ void getDoom() {
   if (sevenSegment[0] - '0' >= 0) doomTime += (sevenSegment[0] - '0') * 100;
   if (sevenSegment[1] - '0' >= 0) doomTime += (sevenSegment[1] - '0') * 10;
   if (sevenSegment[2] - '0' >= 0) doomTime += (sevenSegment[2] - '0') * 1;
-  while (doomTime--) {
-    sevenSegment[0] = '0' + doomTime / 100;
+  while (doomTime--) {  // use loops when there are more than 3 7-segments
+    sevenSegment[0] = '0' + (doomTime % 1000) / 100;
     sevenSegment[1] = '0' + (doomTime % 100) / 10;
-    sevenSegment[2] = '0' + doomTime % 10;
+    sevenSegment[2] = '0' + (doomTime % 10) / 1;
     updateSevenSegment();
     delay(1000);
   }
@@ -80,15 +80,15 @@ void getDoom() {
 
 void updateSevenSegment() {
   digitalWrite(latchPin, LOW);
-  shiftOut( dataPin, clockPin, LSBFIRST, 255 ); // because of CA
-  shiftOut( dataPin, clockPin, LSBFIRST, 255 ); // because of CA
-  shiftOut( dataPin, clockPin, LSBFIRST, 255 ); // because of CA
+  shiftOut( dataPin, clockPin, LSBFIRST, 255 ); // Common Anode 7-segment
+  shiftOut( dataPin, clockPin, LSBFIRST, 255 ); // Common Anode 7-segment
+  shiftOut( dataPin, clockPin, LSBFIRST, 255 ); // Common Anode 7-segment
   digitalWrite(latchPin, HIGH);
-  delay(100);     // avoid Persistence of vision
+  delay(100);     // to avoid the Persistence of vision
   digitalWrite(latchPin, LOW);
-  shiftOut( dataPin, clockPin, LSBFIRST, 255 - code[sevenSegment[0] - '0'] ); // to Common Anode 7-segment
-  shiftOut( dataPin, clockPin, LSBFIRST, 255 - code[sevenSegment[1] - '0'] ); // to Common Anode 7-segment
-  shiftOut( dataPin, clockPin, LSBFIRST, 255 - code[sevenSegment[2] - '0'] ); // to Common Anode 7-segment
+  shiftOut( dataPin, clockPin, LSBFIRST, 255 - code[sevenSegment[0] - '0'] ); // Common Anode 7-segment
+  shiftOut( dataPin, clockPin, LSBFIRST, 255 - code[sevenSegment[1] - '0'] ); // Common Anode 7-segment
+  shiftOut( dataPin, clockPin, LSBFIRST, 255 - code[sevenSegment[2] - '0'] ); // Common Anode 7-segment
   digitalWrite(latchPin, HIGH);
 }
 
